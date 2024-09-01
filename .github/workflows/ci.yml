@@ -1,27 +1,46 @@
-name: ci
-on: [pull_request]
+name: CI Pipeline
+
+on: [pull_request, push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: local_user
+          POSTGRES_PASSWORD: local_password
+          POSTGRES_DB: local_db
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: lts/iron
+          node-version: 'lts/iron'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm i
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: Linting
+      - name: Lint Code
         run: npm run lint
 
-      - name: Testing
+      - name: Build Docker Image and Run Container
+        run: docker compose --profile prod up -d --build
+
+      - name: Wait for Application to be Ready
+        run: sleep 30
+
+      - name: Run Tests
         run: npm run test
 
-      - name: Start
-        run: npm run start
+      - name: Stop Services
+        if: always()
+        run: docker compose down
