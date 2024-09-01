@@ -2,7 +2,7 @@
 
 function cleanup {
   npm run services:down
-  PID=$(lsof -t -i:3000)
+  PID=$(lsof -t -i:3005)
   if [ -n "$PID" ]; then
     kill $PID
   fi
@@ -11,4 +11,4 @@ function cleanup {
 
 trap cleanup INT
 
-npm run services:up && npm run migrate:latest && npm run start
+npm run services:up && npm run start:dev

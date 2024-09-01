@@ -18,7 +18,8 @@ const config: Knex.Config = {
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: config,
-  test: config
+  test: config,
+  production: config
 }
 
 export default knexConfig

@@ -16,7 +16,9 @@
   ],
   "scripts": {
     "dev": "./init-dev.sh",
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "start:dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "start:prod": "node dist/src/app.js",
     "services:up": "docker compose up -d",
     "services:stop": "docker compose stop",
     "services:down": "docker compose down",
@@ -39,6 +41,8 @@
     "@types/node": "^22.2.0",
     "@types/pg": "^8.11.7",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
@@ -63,6 +67,8 @@
     "knex": "^3.1.0",
     "module-alias": "^2.2.3",
     "pg": "^8.12.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }

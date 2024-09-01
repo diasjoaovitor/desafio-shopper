@@ -1,7 +1,34 @@
 services:
   database:
+    container_name: shopper_database
     image: 'postgres:16.0-alpine3.18'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-local_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_password}
+      POSTSTGRES_HOST: ${POSTSTGRES_HOST:-localhost}
+      POSTGRES_DB: ${POSTGRES_DB:-local_db}
     env_file:
       - .env
     ports:
-      - '5432:5432'
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+  backend:
+    container_name: shopper_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${PORT:-3005}:3005'
+    environment:
+      BASE_URL: '${BASE_URL:-http://localhost:3005}'
+      DATABASE_URL: postgres://${POSTGRES_USER:-local_user}:${POSTGRES_PASSWORD:-local_password}@database:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-local_db}
+      NODE_ENV: production
+    env_file:
+      - .env
+    depends_on:
+      - database
+    profiles: [prod]
+volumes:
+  database-data:
