@@ -35,8 +35,6 @@ export const uploadImage = async (req: Request, res: Response) => {
     })
     const measure_uuid = uuid()
     const fileName = `${measure_uuid}.jpg`
-    const filePath = await getFilePath(fileName)
-    await saveImage({ imageBase64, filePath })
     const image_url = `${process.env.BASE_URL}/uploads/${fileName}`
     await measureService.createMeasure({
       ...rest,
@@ -45,6 +43,8 @@ export const uploadImage = async (req: Request, res: Response) => {
       image_url,
       has_confirmed: false
     })
+    const filePath = await getFilePath(fileName)
+    await saveImage({ imageBase64, filePath })
     res.status(200).json({ image_url, measure_value, measure_uuid })
   } catch (error) {
     console.error(error)
