@@ -36,7 +36,7 @@ A descrição do teste está escrita [neste pdf](./.github/assets/teste_técnico
 Crie o arquivo `.env` e atribua sua chave `GEMINI_API_KEY`
 
 ```sh
-docker compose --profile prod up -d--build
+docker compose --profile prod up -d --build
 ```
 
 **Localmente**
@@ -54,6 +54,8 @@ npm run dev
 ```
 
 Nas execuções seguintes, apenas o comando `npm run dev` é necessário
+
+Acesse: http://localhost:3005
 
 ## Estrutura do projeto
 
@@ -150,7 +152,7 @@ Nas execuções seguintes, apenas o comando `npm run dev` é necessário
 
 ## Testes de Integração
 
-Para rodar os testes é necessário que o servidor esteja executando, depois use o comando `npm test` 
+Para rodar os testes é necessário que o servidor esteja executando, depois use o comando `npm test`
 
 Foram implementados os seguintes casos:
 
